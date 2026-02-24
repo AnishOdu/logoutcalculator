@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Work Logout Calculator</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #4e73df, #1cc88a);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+    }
+
+    .card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        width: 350px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        text-align: center;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .input-group {
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    label {
+        font-size: 14px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+    }
+
+    .interval {
+        display: flex;
+        gap: 10px;
+    }
+
+    button {
+        background: #4e73df;
+        color: white;
+        border: none;
+        padding: 10px;
+        width: 100%;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #2e59d9;
+    }
+
+    .result {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #1cc88a;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>Work Logout Calculator</h2>
+
+    <div class="input-group">
+        <label>Login Time (Current System Time)</label>
+        <input type="time" id="loginTime">
+    </div>
+
+    <div class="input-group">
+        <label>Work Interval</label>
+        <div class="interval">
+            <input type="number" id="hours" placeholder="Hours" min="0">
+            <input type="number" id="minutes" placeholder="Minutes" min="0">
+        </div>
+    </div>
+
+    <button onclick="calculateLogout()">Calculate Logout</button>
+
+    <div class="result" id="result">Logout Time: --:--</div>
+</div>
+
+<script>
+// ✅ Set current system time as default when page loads
+window.addEventListener("DOMContentLoaded", function() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    document.getElementById("loginTime").value = `${hours}:${minutes}`;
+});
+
+function calculateLogout() {
+    const loginTime = document.getElementById("loginTime").value;
+    const addHours = parseInt(document.getElementById("hours").value) || 0;
+    const addMinutes = parseInt(document.getElementById("minutes").value) || 0;
+
+    if (!loginTime) return;
+
+    const [h, m] = loginTime.split(":");
+    const date = new Date();
+    date.setHours(parseInt(h));
+    date.setMinutes(parseInt(m));
+    date.setSeconds(0);
+
+    date.setHours(date.getHours() + addHours);
+    date.setMinutes(date.getMinutes() + addMinutes);
+
+    const logoutHours = String(date.getHours()).padStart(2, "0");
+    const logoutMinutes = String(date.getMinutes()).padStart(2, "0");
+
+    document.getElementById("result").innerText =
+        `Logout Time: ${logoutHours}:${logoutMinutes}`;
+}
+</script>
+
+</body>
+</html>
